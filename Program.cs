@@ -5,7 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-var connectionString = "server=localhost;database=myLibrary;user=root;password=password;";
+// var connectionString = "server=localhost;database=myLibrary;user=root;password=password;";
+var connectionString = builder.Configuration.GetConnectionString("MvcMovieContext");
 builder.Services.AddDbContext<MyDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 var app = builder.Build();

@@ -16,3 +16,16 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.search__more {
+  display: none;
+}
+
+.form__item-drop--active.search__more {
+  display: block;
+}
+
+.search_el {
+  display: block;
+  margin-top: 10px;
+}

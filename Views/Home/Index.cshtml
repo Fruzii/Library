@@ -8,86 +8,81 @@
 </p>
 
 <form asp-controller="Home" asp-action="Index">
-  <p>
-    <select asp-for="BookGenre" asp-items="Model.Genres">
-      <option value="">Всі</option>
-    </select>
+  Назва: <input type="text" name="searchString" value="@ViewBag.CurrentFilter" />
+  <input type="submit" value="Filter" />
+  <button type="button" class="form__item-drop">Розширений пошук</button>
+  <a class="link-primary" asp-controller="Home" asp-action="Index" >Скинути фільтри</a>
+  <div class="search__more">
+    <div class="search_el">
+      Рік видавництва ВІД: <input type="text" name="currYearStart" value="@ViewBag.CurrYearStart" />
+    </div>
 
-    <select asp-for="BookIsBusy" asp-items="Model.IsBusy">
-      <option value="">Всі</option>
-    </select>
+    <div class="search_el">
+      Рік видавництва ДО: <input type="text" name="currYearEnd" value="@ViewBag.CurrYearEnd" />
+    </div>
 
-    <select asp-for="BookYear" asp-items="Model.Years">
-      <option value="">Всі</option>
-    </select>
+    <div class="search_el">
+      Жанр: <select asp-for="BookGenre" asp-items="Model.Genres">
+        <option value="">Всі</option>
+      </select>
+    </div>
 
-    <select asp-for="BookAuthor" asp-items="Model.Authors">
-      <option value="">Всі</option>
-    </select>
+    <div class="search_el">
+      Статус: <select asp-for="BookIsBusy" asp-items="Model.IsBusy">
+        <option value="">Всі</option>
+      </select>
+    </div>
 
-    Title: <input type="text" name="SearchString" value="@ViewBag.CurrentFilter" />
-    <input type="submit" value="Filter" />
-  </p>
+    @* <select asp-for="BookYear" asp-items="Model.Years" >
+      <option value="">Всі</option>
+      </select> *@
+
+    <div class="search_el">
+      Автор: <select asp-for="BookAuthor" asp-items="Model.Authors">
+        <option value="">Всі</option>
+      </select>
+    </div>
+  </div>
 </form>
 
 <table class="table">
   <thead>
     <tr>
       <th>
-        <a 
-        asp-action="Index" 
-        asp-route-sortOrder="@ViewBag.TitleSort" 
-        asp-route-currentFilter="@ViewBag.CurrentFilter" 
-        asp-route-currAuthor="@ViewBag.CurrAuthor" 
-        asp-route-currGenre="@ViewBag.CurrGenre" 
-        asp-route-currYear="@ViewBag.CurrYear" 
-        asp-route-currIsBusy="@ViewBag.CurrIsBusy" 
-        >
+        <a asp-action="Index" asp-route-sortOrder="@ViewBag.TitleSort" asp-route-currentFilter="@ViewBag.CurrentFilter"
+          asp-route-currAuthor="@ViewBag.CurrAuthor" asp-route-currGenre="@ViewBag.CurrGenre"
+          asp-route-currYearStart="@ViewBag.CurrYearStart" asp-route-currYearEnd="@ViewBag.CurrYearEnd"
+          asp-route-currIsBusy="@ViewBag.CurrIsBusy">
           @Html.DisplayNameFor(model => model.Books[0].title)
         </a>
       </th>
       <th>
-        <a 
-        asp-action="Index" 
-        asp-route-sortOrder="@ViewBag.AuthorSort" 
-        asp-route-currentFilter="@ViewBag.CurrentFilter" 
-        asp-route-currAuthor="@ViewBag.CurrAuthor" 
-        asp-route-currGenre="@ViewBag.CurrGenre" 
-        asp-route-currYear="@ViewBag.CurrYear" 
-        asp-route-currIsBusy="@ViewBag.CurrIsBusy" 
-        >
+        <a asp-action="Index" asp-route-sortOrder="@ViewBag.AuthorSort" asp-route-currentFilter="@ViewBag.CurrentFilter"
+          asp-route-currAuthor="@ViewBag.CurrAuthor" asp-route-currGenre="@ViewBag.CurrGenre"
+          asp-route-currYearStart="@ViewBag.CurrYearStart" asp-route-currYearEnd="@ViewBag.CurrYearEnd"
+          asp-route-currIsBusy="@ViewBag.CurrIsBusy">
           @Html.DisplayNameFor(model => model.Books[0].author)
         </a>
       </th>
       <th>
-        <a 
-        asp-action="Index" 
-        asp-route-sortOrder="@ViewBag.GenreSort" 
-        asp-route-currentFilter="@ViewBag.CurrentFilter" 
-        asp-route-currAuthor="@ViewBag.CurrAuthor" 
-        asp-route-currGenre="@ViewBag.CurrGenre" 
-        asp-route-currYear="@ViewBag.CurrYear" 
-        asp-route-currIsBusy="@ViewBag.CurrIsBusy" 
-        >
+        <a asp-action="Index" asp-route-sortOrder="@ViewBag.GenreSort" asp-route-currentFilter="@ViewBag.CurrentFilter"
+          asp-route-currAuthor="@ViewBag.CurrAuthor" asp-route-currGenre="@ViewBag.CurrGenre"
+          asp-route-currYearStart="@ViewBag.CurrYearStart" asp-route-currYearEnd="@ViewBag.CurrYearEnd"
+          asp-route-currIsBusy="@ViewBag.CurrIsBusy">
           @Html.DisplayNameFor(model => model.Books[0].genre)
         </a>
       </th>
       <th>
-        <a 
-        asp-action="Index" 
-        asp-route-sortOrder="@ViewBag.YearSort" 
-        asp-route-currentFilter="@ViewBag.CurrentFilter" 
-        asp-route-currAuthor="@ViewBag.CurrAuthor" 
-        asp-route-currGenre="@ViewBag.CurrGenre" 
-        asp-route-currYear="@ViewBag.CurrYear" 
-        asp-route-currIsBusy="@ViewBag.CurrIsBusy" 
-        >
+        <a asp-action="Index" asp-route-sortOrder="@ViewBag.YearSort" asp-route-currentFilter="@ViewBag.CurrentFilter"
+          asp-route-currAuthor="@ViewBag.CurrAuthor" asp-route-currGenre="@ViewBag.CurrGenre"
+          asp-route-currYearStart="@ViewBag.CurrYearStart" asp-route-currYearEnd="@ViewBag.CurrYearEnd"
+          asp-route-currIsBusy="@ViewBag.CurrIsBusy">
           @Html.DisplayNameFor(model => model.Books[0].year)
         </a>
       </th>
       <th>
         @* <a asp-action="Index" asp-route-sortOrder="@ViewBag.IsBussSort"> *@
-          @Html.DisplayNameFor(model => model.Books[0].isBusy)
+        @Html.DisplayNameFor(model => model.Books[0].isBusy)
         @* </a> *@
       </th>
       <th></th>

@@ -2,4 +2,8 @@
 // for details on configuring this project to bundle and minify static web assets.
 // Write your JavaScript code.
 
-$('.datepicker').datepicker();
+// $('.datepicker').datepicker();
+$('.form__item-drop').on('click', function () {
+  $(this).toggleClass('form__item-drop--active');
+  $('.search__more').slideToggle(200);
+});
