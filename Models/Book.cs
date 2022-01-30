@@ -15,7 +15,6 @@ namespace Library.Models
         [Display(Name = "Автор")]
         [StringLength(60, MinimumLength = 3)]
         [Required]
-        // [MaxLength(50)]
         public string author { set; get; }
 
         [Display(Name = "Жанр")]
@@ -24,11 +23,9 @@ namespace Library.Models
         public string? genre { set; get; }
         
         [Display(Name = "Рік")]
-        // [DataType(DataType.Date)]
-        // [DisplayFormat(DataFormatString = "{0:yyyy}", ApplyFormatInEditMode = true)]
         public int year { set; get; }
 
-        [Display(Name = "Наявність")]
+        [Display(Name = "Зайнята")]
         public bool isBusy { set; get; }
     }
 }

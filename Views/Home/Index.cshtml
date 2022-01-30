@@ -11,7 +11,7 @@
   Назва: <input type="text" name="searchString" value="@ViewBag.CurrentFilter" />
   <input type="submit" value="Filter" />
   <button type="button" class="form__item-drop">Розширений пошук</button>
-  <a class="link-primary" asp-controller="Home" asp-action="Index" >Скинути фільтри</a>
+  <a class="link-primary" asp-controller="Home" asp-action="Index" ><button type="button" >Скинути фільтри</button></a>
   <div class="search__more">
     <div class="search_el">
       Рік видавництва ВІД: <input type="text" name="currYearStart" value="@ViewBag.CurrYearStart" />
@@ -32,11 +32,6 @@
         <option value="">Всі</option>
       </select>
     </div>
-
-    @* <select asp-for="BookYear" asp-items="Model.Years" >
-      <option value="">Всі</option>
-      </select> *@
-
     <div class="search_el">
       Автор: <select asp-for="BookAuthor" asp-items="Model.Authors">
         <option value="">Всі</option>
@@ -81,9 +76,7 @@
         </a>
       </th>
       <th>
-        @* <a asp-action="Index" asp-route-sortOrder="@ViewBag.IsBussSort"> *@
         @Html.DisplayNameFor(model => model.Books[0].isBusy)
-        @* </a> *@
       </th>
       <th></th>
     </tr>
@@ -104,9 +97,15 @@
         <td>
           @Html.DisplayFor(modelItem => item.year)
         </td>
-        <td>
-          @Html.DisplayFor(modelItem => item.isBusy)
-          @* @(item.isBusy ? "Вільна" : "Зайнята") *@
+        <td class="text-success">
+          @if (!item.isBusy) {
+            <span class='text-success'>Вільна</span>
+          }
+           @if (item.isBusy) {
+            <span class='text-danger'>Зайнята</span>
+          }
+          @* @Html.DisplayFor(modelItem => item.isBusy ? "<span class='text-success'>Вільна</span>" : "<span class='text-danger'>Зайнята</span>") *@
+          @* @(Model. ? <span class="text-success">"Вільна"</span> : "Зайнята") *@
         </td>
         <td>
           <a asp-action="Edit" asp-route-id="@item.id">Редагувати</a> |
@@ -117,16 +116,3 @@
     }
   </tbody>
 </table>
-
-@* <div class="row">
-  @foreach (var item in Model)
-  {
-  <div class="col-lg-4">
-  <h2>@item.title</h2>
-  <h3>@item.author</h3>
-  <h3>@item.genre</h3>
-  <h3>@(item.isBusy ? "Вільна" : "Зайнята")</h3>
-  <p><a class="button" asp-action="Details" asp-route-id="@item.id">Детальніше</a></p>
-  </div>
-  }
-  </div> *@

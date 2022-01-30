@@ -30,16 +30,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="year" class="control-label"></label>
-                @* @Html.TextBox("year", Model.year) *@
-                @* @Html.TextBox("year", String.Format("{0:01/01/yyyy}", Model.year), new { @class= "form-control", id = "datepicker"}) *@
                 <input asp-for="year" class="form-control"/>
-                @* <input asp-for="year" type="text" class="form-control" id="datepicker" /> *@
                 <span asp-validation-for="year" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="isBusy" class="control-label"></label>
                 @Html.CheckBox("isBusy", Model.isBusy)
-                @* <input type="checkbox" asp-for="isBusy" class="form-control" /> *@
                 <span asp-validation-for="isBusy" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -50,7 +46,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Назад</a>
 </div>
 
 @section Scripts {
