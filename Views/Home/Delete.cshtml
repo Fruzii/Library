@@ -1,0 +1,42 @@
+@model Book
+@{
+  ViewBag.Title = "Видалення книги";
+}
+
+<div>
+  <dl class="dl-horizontal">
+    <dt>
+      @Html.DisplayNameFor(model => model.title)
+    </dt>
+    <dd>
+      @Html.DisplayFor(model => model.title)
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.author)
+    </dt>
+    <dd>
+      @Html.DisplayFor(model => model.author)
+    </dd>
+    <dt>
+      @Html.DisplayNameFor(model => model.year)
+    </dt>
+    <dd>
+      @Html.DisplayFor(model => model.year)
+    </dd>
+    <dt>
+      @Html.DisplayNameFor(model => model.isBusy)
+    </dt>
+    <dd>
+      @Html.DisplayFor(model => model.isBusy)
+    </dd>
+  </dl>
+
+  <div>
+    <form asp-controller="Home" asp-action="Delete" method="post">
+      <div class="form-group">
+        <input type="submit" class="btn btn-danger" value="Видалити" />
+      </div>
+    </form>
+  </div>
+</div>

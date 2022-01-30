@@ -1,0 +1,58 @@
+@model Book
+@{
+  ViewData["Title"] = "Home Page";
+}
+
+<h1>Деталі</h1>
+
+<div>
+    <h4>Книга</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.author)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.author)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.genre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.genre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.isBusy)
+        </dt>
+        <dd class = "col-sm-10">
+            @(Model.isBusy ? "Вільна" : "Зайнята")
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.id">Редагувати</a> |
+    <a asp-action="Index">Назад на головну</a>
+</div>
+
+@* <div class="row">
+  <div class="col-lg-4">
+    <h2>@Html.DisplayFor(model => model.title)</h2>
+    <h3>@Html.DisplayFor(model => model.author)</h3>
+    <h3>@Model.genre</h3>
+    <h3>@(Model.isBusy ? "Вільна" : "Зайнята")</h3>
+    
+  </div>
+</div> *@
+
+@* <h3>@Html.DisplayFor(model => (model.isBusy ? "Вільна" : "Зайнята"))</h3> *@
+    @* <h2>@(model.isBusy ? "Немає" : "Є")</h2> *@
+    @* <h3>@item.author</h3>
+    <h3>@item.genre</h3>
+    <h3>@(item.isBusy ? "Немає" : "Є")</h3> *@
+    @* <p><a class="button" asp-action="Detail" asp-route-id="@item.id">Детальніше</a></p> *@

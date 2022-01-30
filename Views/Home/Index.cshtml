@@ -1,0 +1,97 @@
+﻿@model BookGenreViewModel
+@{
+  ViewData["Title"] = "Home Page";
+}
+
+<p>
+  <a asp-action="Create">Додати книгу</a>
+</p>
+
+<form asp-controller="Home" asp-action="Index">
+  <p>
+    <select asp-for="BookGenre" asp-items="Model.Genres">
+      <option value="">Всі</option>
+    </select>
+
+    <select asp-for="BookIsBusy" asp-items="Model.IsBusy">
+      <option value="">Всі</option>
+    </select>
+
+    Title: <input type="text" name="SearchString" />
+    <input type="submit" value="Filter" />
+  </p>
+</form>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        <a asp-action="Index" asp-route-sortOrder="@ViewBag.TitleSort">
+          @Html.DisplayNameFor(model => model.Books[0].title)
+        </a>
+      </th>
+      <th>
+        <a asp-action="Index" asp-route-sortOrder="@ViewBag.AuthorSort">
+          @Html.DisplayNameFor(model => model.Books[0].author)
+        </a>
+      </th>
+      <th>
+        <a asp-action="Index" asp-route-sortOrder="@ViewBag.GenreSort">
+          @Html.DisplayNameFor(model => model.Books[0].genre)
+        </a>
+      </th>
+      <th>
+        <a asp-action="Index" asp-route-sortOrder="@ViewBag.YearSort">
+          @Html.DisplayNameFor(model => model.Books[0].year)
+        </a>
+      </th>
+      <th>
+        @* <a asp-action="Index" asp-route-sortOrder="@ViewBag.IsBussSort"> *@
+          @Html.DisplayNameFor(model => model.Books[0].isBusy)
+        @* </a> *@
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model.Books)
+    {
+      <tr>
+        <td>
+          @Html.DisplayFor(modelItem => item.title)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.author)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.genre)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.year)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.isBusy)
+          @* @(item.isBusy ? "Вільна" : "Зайнята") *@
+        </td>
+        <td>
+          <a asp-action="Edit" asp-route-id="@item.id">Редагувати</a> |
+          <a asp-action="Details" asp-route-id="@item.id">Детальніше</a> |
+          <a asp-action="Delete" asp-route-id="@item.id">Видалити</a>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+@* <div class="row">
+  @foreach (var item in Model)
+  {
+  <div class="col-lg-4">
+  <h2>@item.title</h2>
+  <h3>@item.author</h3>
+  <h3>@item.genre</h3>
+  <h3>@(item.isBusy ? "Вільна" : "Зайнята")</h3>
+  <p><a class="button" asp-action="Details" asp-route-id="@item.id">Детальніше</a></p>
+  </div>
+  }
+  </div> *@
