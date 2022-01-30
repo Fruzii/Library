@@ -28,19 +28,28 @@ public class HomeController : Controller
   // GET: Movies
   public async Task<IActionResult> Index(
     string searchString,
+    string sortOrder,
+    string currentFilter,
     string bookGenre,
     bool? bookIsBusy,
     int? bookYear,
     string bookAuthor,
-    SortState sortOrder = SortState.TitleAsc
+    int? pageNumber
     )
   {
-    ViewData["TitleSort"] = sortOrder == SortState.TitleAsc ? SortState.TitleDesc : SortState.TitleAsc;
-    ViewData["AuthorSort"] = sortOrder == SortState.AuthorAsc ? SortState.AuthorDesc : SortState.AuthorAsc;
-    ViewData["GenreSort"] = sortOrder == SortState.GenreAsc ? SortState.GenreDesc : SortState.GenreAsc;
-    ViewData["YearSort"] = sortOrder == SortState.YearAsc ? SortState.YearDesc : SortState.YearAsc;
-    ViewData["IsBusySort"] = sortOrder == SortState.IsBusyAsc ? SortState.IsBusyDesc : SortState.IsBusyAsc;
+    ViewData["CurrentSort"] = sortOrder;
+    ViewData["TitleSort"] = String.IsNullOrEmpty(sortOrder) ? "TitleDesc" : "TitleAsc";
+    ViewData["AuthorSort"] = sortOrder == "AuthorAsc" ? "AuthorDesc" : "AuthorAsc";
+    ViewData["GenreSort"] = sortOrder == "GenreAsc" ? "GenreDesc" : "GenreAsc";
+    ViewData["YearSort"] = sortOrder == "YearAsc" ? "YearDesc" : "YearAsc";
+    ViewData["IsBusySort"] = sortOrder == "IsBusyAsc" ? "IsBusyDesc" : "IsBusyAsc";
 
+    if (searchString == null)
+    {
+      searchString = currentFilter;
+    }
+  
+    ViewData["CurrentFilter"] = searchString;
     // Use LINQ to get list of genres.
     IQueryable<string> genreQuery = from b in _context.Book
                                     orderby b.genre
@@ -78,19 +87,35 @@ public class HomeController : Controller
       books = books.Where(x => x.author == bookAuthor);
     }
 
-    books = sortOrder switch
+    switch (sortOrder)
     {
-      SortState.TitleDesc => books.OrderByDescending(s => s.title),
-      SortState.AuthorAsc => books.OrderBy(s => s.author),
-      SortState.AuthorDesc => books.OrderByDescending(s => s.author),
-      SortState.GenreAsc => books.OrderBy(s => s.genre),
-      SortState.GenreDesc => books.OrderByDescending(s => s.genre),
-      SortState.YearAsc => books.OrderBy(s => s.year),
-      SortState.YearDesc => books.OrderByDescending(s => s.year),
-      _ => books.OrderBy(s => s.title),
+      case "TitleDesc":
+        books = books.OrderByDescending(s => s.title);
+        break;
+      case "AuthorAsc":
+        books = books.OrderBy(s => s.author);
+        break;
+      case "AuthorDesc":
+        books = books.OrderByDescending(s => s.author);
+        break;
+      case "GenreAsc":
+        books = books.OrderBy(s => s.genre);
+        break;
+      case "GenreDesc":
+        books = books.OrderByDescending(s => s.genre);
+        break;
+      case "YearAsc":
+        books = books.OrderBy(s => s.year);
+        break;
+      case "YearDesc":
+        books = books.OrderByDescending(s => s.year);
+        break;
+      default:
+        books = books.OrderBy(s => s.title);
+        break;
     };
-    // SortState.IsBusyAsc => books.OrderBy(s => s.isBusy),
-    // SortState.IsBusyDesc => books.OrderByDescending(s => s.isBusy),
+    // .IsBusyAsc => books.OrderBy(s => s.isBusy),
+    // .IsBusyDesc => books.OrderByDescending(s => s.isBusy),
     var IsBusyList = new List<SelectListItem>();
     foreach (bool item in isBusyQuery)
     {
