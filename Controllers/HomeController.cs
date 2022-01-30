@@ -30,15 +30,20 @@ public class HomeController : Controller
     string searchString,
     string sortOrder,
     string currentFilter,
-    string bookGenre,
-    bool? bookIsBusy,
-    int? bookYear,
     string bookAuthor,
+    string currAuthor,
+    string bookGenre,
+    string currGenre,
+    bool? bookIsBusy,
+    bool? currIsBusy,
+    int? bookYear,
+    int? currYear,
     int? pageNumber
     )
   {
     ViewData["CurrentSort"] = sortOrder;
-    ViewData["TitleSort"] = String.IsNullOrEmpty(sortOrder) ? "TitleDesc" : "TitleAsc";
+    // ViewData["TitleSort"] = String.IsNullOrEmpty(sortOrder) ? "TitleDesc" : "TitleAsc";
+    ViewData["TitleSort"] = sortOrder == "TitleAsc" ? "TitleDesc" : "TitleAsc";
     ViewData["AuthorSort"] = sortOrder == "AuthorAsc" ? "AuthorDesc" : "AuthorAsc";
     ViewData["GenreSort"] = sortOrder == "GenreAsc" ? "GenreDesc" : "GenreAsc";
     ViewData["YearSort"] = sortOrder == "YearAsc" ? "YearDesc" : "YearAsc";
@@ -48,8 +53,28 @@ public class HomeController : Controller
     {
       searchString = currentFilter;
     }
+    if (bookIsBusy == null)
+    {
+      bookIsBusy = currIsBusy;
+    }
+    if (bookAuthor == null)
+    {
+      bookAuthor = currAuthor;
+    }
+    if (bookGenre == null)
+    {
+      bookGenre = currGenre;
+    }
+    if (bookYear == null)
+    {
+      bookYear = currYear;
+    }
   
     ViewData["CurrentFilter"] = searchString;
+    ViewData["CurrYear"] = currYear;
+    ViewData["CurrAuthor"] = currAuthor;
+    ViewData["CurrGenre"] = currGenre;
+    ViewData["CurrIsBusy"] = bookIsBusy;
     // Use LINQ to get list of genres.
     IQueryable<string> genreQuery = from b in _context.Book
                                     orderby b.genre
@@ -116,16 +141,36 @@ public class HomeController : Controller
     };
     // .IsBusyAsc => books.OrderBy(s => s.isBusy),
     // .IsBusyDesc => books.OrderByDescending(s => s.isBusy),
+
+    var AuthorsList = new List<SelectListItem>();
+    foreach (string item in authorQuery)
+    {
+      AuthorsList.Add(new SelectListItem { Value = item, Text = item, Selected = item == currAuthor});
+    }
+
+    var YearsList = new List<SelectListItem>();
+    foreach (int item in yearQuery)
+    {
+      YearsList.Add(new SelectListItem { Value = item.ToString(), Text = item.ToString(), Selected = item == currYear});
+    }
+
+    var GenresList = new List<SelectListItem>();
+    foreach (string item in genreQuery)
+    {
+      GenresList.Add(new SelectListItem { Value = item, Text = item, Selected = item == currGenre});
+    }
+
     var IsBusyList = new List<SelectListItem>();
     foreach (bool item in isBusyQuery)
     {
-      IsBusyList.Add(new SelectListItem { Value = item.ToString(), Text = item ? "Зайняті" : "Вільні", });
+      IsBusyList.Add(new SelectListItem { Value = item.ToString(), Text = item ? "Зайняті" : "Вільні", Selected = item == currIsBusy});
     }
+
     var bookGenreVM = new BookGenreViewModel
     {
-      Authors = new SelectList(await authorQuery.Distinct().ToListAsync()),
-      Years = new SelectList(await yearQuery.Distinct().ToListAsync()),
-      Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
+      Authors = new SelectList(AuthorsList.DistinctBy(c => c.Text).ToList(), "Value", "Text"),
+      Years = new SelectList(YearsList.DistinctBy(c => c.Text).ToList(), "Value", "Text"),
+      Genres = new SelectList(GenresList.DistinctBy(c => c.Text).ToList(), "Value", "Text"),
       IsBusy = new SelectList(IsBusyList.DistinctBy(c => c.Text).ToList(), "Value", "Text"),
       // IsBusy = new SelectList(await isBusyQuery.Distinct().ToListAsync()),
       Books = await books.ToListAsync()
