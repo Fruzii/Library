@@ -27,10 +27,10 @@ public class HomeController : Controller
 
   // GET: Movies
   public async Task<IActionResult> Index(
-    string bookGenre,
     string searchString,
+    string bookGenre,
     bool? bookIsBusy,
-    DateTime? bookYear,
+    int? bookYear,
     string bookAuthor,
     SortState sortOrder = SortState.TitleAsc
     )
@@ -68,7 +68,7 @@ public class HomeController : Controller
       books = books.Where(x => x.genre == bookGenre);
     }
 
-    if (bookGenre != null)
+    if (bookYear != null)
     {
       books = books.Where(x => x.year == bookYear);
     }
@@ -91,12 +91,18 @@ public class HomeController : Controller
     };
     // SortState.IsBusyAsc => books.OrderBy(s => s.isBusy),
     // SortState.IsBusyDesc => books.OrderByDescending(s => s.isBusy),
+    var IsBusyList = new List<SelectListItem>();
+    foreach (bool item in isBusyQuery)
+    {
+      IsBusyList.Add(new SelectListItem { Value = item.ToString(), Text = item ? "Зайняті" : "Вільні", });
+    }
     var bookGenreVM = new BookGenreViewModel
     {
       Authors = new SelectList(await authorQuery.Distinct().ToListAsync()),
       Years = new SelectList(await yearQuery.Distinct().ToListAsync()),
       Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
-      IsBusy = new SelectList(await isBusyQuery.Distinct().ToListAsync()),
+      IsBusy = new SelectList(IsBusyList.DistinctBy(c => c.Text).ToList(), "Value", "Text"),
+      // IsBusy = new SelectList(await isBusyQuery.Distinct().ToListAsync()),
       Books = await books.ToListAsync()
     };
 

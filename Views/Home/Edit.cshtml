@@ -31,8 +31,8 @@
             <div class="form-group">
                 <label asp-for="year" class="control-label"></label>
                 @* @Html.TextBox("year", Model.year) *@
-                @Html.TextBox("year", String.Format("{0:01/01/yyyy}", Model.year), new { @class= "form-control", id = "datepicker"})
-                @* <input asp-for="year" class="form-control"/> *@
+                @* @Html.TextBox("year", String.Format("{0:01/01/yyyy}", Model.year), new { @class= "form-control", id = "datepicker"}) *@
+                <input asp-for="year" class="form-control"/>
                 @* <input asp-for="year" type="text" class="form-control" id="datepicker" /> *@
                 <span asp-validation-for="year" class="text-danger"></span>
             </div>

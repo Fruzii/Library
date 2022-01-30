@@ -25,8 +25,8 @@ namespace Library.Models
         
         [Display(Name = "Рік")]
         // [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime year { set; get; }
+        // [DisplayFormat(DataFormatString = "{0:yyyy}", ApplyFormatInEditMode = true)]
+        public int year { set; get; }
 
         [Display(Name = "Наявність")]
         public bool isBusy { set; get; }
