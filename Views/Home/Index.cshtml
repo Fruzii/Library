@@ -104,8 +104,6 @@
            @if (item.isBusy) {
             <span class='text-danger'>Зайнята</span>
           }
-          @* @Html.DisplayFor(modelItem => item.isBusy ? "<span class='text-success'>Вільна</span>" : "<span class='text-danger'>Зайнята</span>") *@
-          @* @(Model. ? <span class="text-success">"Вільна"</span> : "Зайнята") *@
         </td>
         <td>
           <a asp-action="Edit" asp-route-id="@item.id">Редагувати</a> |
